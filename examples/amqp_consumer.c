@@ -46,6 +46,7 @@ static void run(amqp_connection_state_t conn) {
 
     amqp_maybe_release_buffers(conn);
     ret = amqp_consume_message(conn, &envelope, NULL, 0);
+    printf("msg:%s\n", (char*)envelope.message.body.bytes);
 
     if (AMQP_RESPONSE_NORMAL != ret.reply_type) {
       if (AMQP_RESPONSE_LIBRARY_EXCEPTION == ret.reply_type &&
@@ -131,7 +132,7 @@ int main(int argc, char const *const *argv) {
 
   hostname = argv[1];
   port = atoi(argv[2]);
-  exchange = "amq.direct";   /* argv[3]; */
+  exchange =  argv[3]; //"amq.direct"; 
   bindingkey = "test queue"; /* argv[4]; */
 
   conn = amqp_new_connection();
